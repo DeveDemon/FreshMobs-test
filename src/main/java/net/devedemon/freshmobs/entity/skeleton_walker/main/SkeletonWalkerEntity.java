@@ -1,6 +1,8 @@
 package net.devedemon.freshmobs.entity.skeleton_walker.main;
 
-import net.devedemon.freshmobs.entity.skeleton_walker.ai.SkeletonWalkerMeleeAttackGoal;
+
+import net.devedemon.freshmobs.entity.skeleton_walker.ai.SlashGoal;
+import net.devedemon.freshmobs.entity.skeleton_walker.ai.StabGoal;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -37,7 +39,25 @@ public class SkeletonWalkerEntity extends Monster implements GeoEntity {
     private final AnimatableInstanceCache geoCache =
             GeckoLibUtil.createInstanceCache(this);
 
-    private int deathLengthInTicks = 100;
+    private static final int DEATH_LENGTH = 100;
+
+    private int deathLengthInTicks = DEATH_LENGTH;
+
+    private boolean attacking;
+    public boolean isAttacking() {
+        return attacking;
+    }
+    public void setAttacking(boolean attacking) {
+        this.attacking = attacking;
+    }
+
+    private boolean attackLocked;
+    public boolean isAttackLocked() {
+        return attackLocked;
+    }
+    public void setAttackLocked(boolean value) {
+        attackLocked = value;
+    }
 
     private AnimationController<SkeletonWalkerEntity>
             attackController = new AnimationController<>(this, "attack", 1, this::attackingAnimation)
@@ -66,7 +86,8 @@ public class SkeletonWalkerEntity extends Monster implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new SkeletonWalkerMeleeAttackGoal(this, 1.0, false));
+        this.goalSelector.addGoal(2, new SlashGoal(this, 1.0, false));
+        this.goalSelector.addGoal(3, new StabGoal(this, 1.0, false));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 10f));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
@@ -95,8 +116,6 @@ public class SkeletonWalkerEntity extends Monster implements GeoEntity {
 
     @Override
     public void die(DamageSource pDamageSource) {
-        this.attackController.forceAnimationReset();
-        this.deathController.forceAnimationReset();
         this.triggerAnim("death", "death");
 
         super.die(pDamageSource);
@@ -133,6 +152,10 @@ public class SkeletonWalkerEntity extends Monster implements GeoEntity {
 
     private PlayState deathAnimation(AnimationState<SkeletonWalkerEntity> state) {
         return PlayState.CONTINUE;
+    }
+
+    public void playAttackAnimation(String animation) {
+        this.triggerAnim("attack", animation);
     }
 
 
