@@ -1,4 +1,4 @@
-package net.devedemon.freshmobs.entity.skeleton_walker.ai;
+package net.devedemon.freshmobs.entity.general.ai;
 
 import net.devedemon.freshmobs.entity.skeleton_walker.main.SkeletonWalkerEntity;
 import net.minecraft.world.InteractionHand;

@@ -26,8 +26,9 @@ public class FreshMobsMod {
     public FreshMobsMod(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
-        ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
+
+        ModEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 

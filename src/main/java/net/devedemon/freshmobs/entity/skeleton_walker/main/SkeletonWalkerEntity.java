@@ -1,14 +1,13 @@
 package net.devedemon.freshmobs.entity.skeleton_walker.main;
 
 
-import net.devedemon.freshmobs.entity.skeleton_walker.ai.AggroAnimationGoal;
-import net.devedemon.freshmobs.entity.skeleton_walker.ai.SkeletonAttackGoal;
+import net.devedemon.freshmobs.entity.general.ai.AggroAnimationGoal;
+import net.devedemon.freshmobs.entity.general.ai.SkeletonAttackGoal;
 import net.devedemon.freshmobs.sound.ModSounds;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -22,7 +21,6 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -34,18 +32,18 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class SkeletonWalkerEntity extends Monster implements GeoEntity {
 
-    private static final EntityDataAccessor<Boolean> ATTACKING =
+    protected static final EntityDataAccessor<Boolean> ATTACKING =
             SynchedEntityData.defineId(SkeletonWalkerEntity.class, EntityDataSerializers.BOOLEAN);
 
-    private static final EntityDataAccessor<Byte> ATTACK_ANIM =
+    protected static final EntityDataAccessor<Byte> ATTACK_ANIM =
             SynchedEntityData.defineId(SkeletonWalkerEntity.class, EntityDataSerializers.BYTE);
 
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
-    private static final RawAnimation SLASH = RawAnimation.begin().thenPlay("slash");
-    private static final RawAnimation STAB = RawAnimation.begin().thenPlay("stab");
+    protected static final RawAnimation SLASH = RawAnimation.begin().thenPlay("slash");
+    protected static final RawAnimation STAB = RawAnimation.begin().thenPlay("stab");
     private static final RawAnimation DEATH = RawAnimation.begin().thenPlay("death");
-    private static final RawAnimation PUMP_FAKE = RawAnimation.begin().thenPlay("pump_fake");
+    protected static final RawAnimation PUMP_FAKE = RawAnimation.begin().thenPlay("pump_fake");
     private static final RawAnimation BANGING = RawAnimation.begin().thenPlay("banging");
 
 
@@ -74,12 +72,17 @@ public class SkeletonWalkerEntity extends Monster implements GeoEntity {
         this.entityData.set(ATTACKING, attacking);
     }
 
-    private final AnimationController<SkeletonWalkerEntity>
-            attackController = new AnimationController<>(this, "attack", 1, this::attackingAnimation)
-            .triggerableAnim("slash", SLASH)
-            .triggerableAnim("stab", STAB)
-            .triggerableAnim("pump_fake", PUMP_FAKE)
-            .triggerableAnim("banging", BANGING);
+    protected AnimationController<SkeletonWalkerEntity> attackController =
+            createAttackController();
+
+    protected AnimationController<SkeletonWalkerEntity> createAttackController() {
+        return new AnimationController<>(this, "attack", 1, this::attackingAnimation)
+                .triggerableAnim("slash", SLASH)
+                .triggerableAnim("stab", STAB)
+                .triggerableAnim("pump_fake", PUMP_FAKE)
+                .triggerableAnim("banging", BANGING);
+    }
+
 
     private final AnimationController<SkeletonWalkerEntity>
             deathController = new AnimationController<>(this, "death", 0, this::deathAnimation)
@@ -123,9 +126,9 @@ public class SkeletonWalkerEntity extends Monster implements GeoEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement", 5, this::movementAnimation));
 
-        controllers.add(this.deathController);
-
         controllers.add(this.attackController);
+
+        controllers.add(this.deathController);
     }
 
     @Override
@@ -174,7 +177,7 @@ public class SkeletonWalkerEntity extends Monster implements GeoEntity {
         return state.setAndContinue(IDLE);
     }
 
-    private PlayState attackingAnimation(AnimationState<SkeletonWalkerEntity> state) {
+    protected PlayState attackingAnimation(AnimationState<SkeletonWalkerEntity> state) {
         if(isDeadOrDying()) {
             return PlayState.STOP;
         }
@@ -244,11 +247,6 @@ public class SkeletonWalkerEntity extends Monster implements GeoEntity {
     @Override
     public int getExperienceReward() {
         return 20;
-    }
-
-    @Override
-    protected @Nullable SoundEvent getAmbientSound() {
-        return SoundEvents.SKELETON_AMBIENT;
     }
 
     @Override

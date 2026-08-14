@@ -1,3 +1,5 @@
 {
-  
+  "entity.freshmobs.skeleton_walker": "Walking Skeleton",
+  "entity.freshmobs.armored_skeleton_walker": "Decayed Guardsman",
+  "entity.freshmobs.warrior_skeleton_walker": "Decayed Knight"
 }

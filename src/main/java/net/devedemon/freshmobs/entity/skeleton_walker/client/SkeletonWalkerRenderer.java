@@ -9,4 +9,9 @@ public class SkeletonWalkerRenderer extends GeoEntityRenderer<SkeletonWalkerEnti
         super(context, new SkeletonWalkerModel());
         this.shadowRadius = 0.5f;
     }
+
+    @Override
+    protected float getDeathMaxRotation(SkeletonWalkerEntity animatable) {
+        return 0.0F;
+    }
 }

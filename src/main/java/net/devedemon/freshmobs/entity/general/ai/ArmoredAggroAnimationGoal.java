@@ -1,20 +1,20 @@
-package net.devedemon.freshmobs.entity.skeleton_walker.ai;
+package net.devedemon.freshmobs.entity.general.ai;
 
-import net.devedemon.freshmobs.entity.skeleton_walker.main.SkeletonWalkerEntity;
+import net.devedemon.freshmobs.entity.general.main.ArmoredSkeletonEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.EnumSet;
 
-public class AggroAnimationGoal extends Goal {
+public class ArmoredAggroAnimationGoal extends Goal {
 
-    private final SkeletonWalkerEntity entity;
+    private final ArmoredSkeletonEntity entity;
     private AttackKind currentAnim;
     private int tick;
     private int lastPlayedTargetId = Integer.MIN_VALUE;
 
-    public AggroAnimationGoal(SkeletonWalkerEntity entity) {
+    public ArmoredAggroAnimationGoal(ArmoredSkeletonEntity entity) {
         this.entity = entity;
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
     }
@@ -46,9 +46,7 @@ public class AggroAnimationGoal extends Goal {
             lastPlayedTargetId = target.getId();
         }
 
-        currentAnim = entity.getRandom().nextFloat() < 0.01F
-                ? AttackKind.BANGING
-                : AttackKind.PUMP_FAKE;
+        currentAnim = AttackKind.PUMP_FAKE;
         tick = 0;
 
         entity.setAttacking(true);
