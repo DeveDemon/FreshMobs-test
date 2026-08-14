@@ -2,6 +2,7 @@ package net.devedemon.freshmobs;
 
 import com.mojang.logging.LogUtils;
 import net.devedemon.freshmobs.entity.general.ModEntities;
+import net.devedemon.freshmobs.sound.ModSounds;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -26,6 +27,7 @@ public class FreshMobsMod {
         IEventBus modEventBus = context.getModEventBus();
 
         ModEntities.register(modEventBus);
+        ModSounds.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 

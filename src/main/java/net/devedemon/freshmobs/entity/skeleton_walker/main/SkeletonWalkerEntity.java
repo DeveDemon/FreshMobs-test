@@ -3,9 +3,12 @@ package net.devedemon.freshmobs.entity.skeleton_walker.main;
 
 import net.devedemon.freshmobs.entity.skeleton_walker.ai.AggroAnimationGoal;
 import net.devedemon.freshmobs.entity.skeleton_walker.ai.SkeletonAttackGoal;
+import net.devedemon.freshmobs.sound.ModSounds;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,6 +22,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -240,5 +244,20 @@ public class SkeletonWalkerEntity extends Monster implements GeoEntity {
     @Override
     public int getExperienceReward() {
         return 20;
+    }
+
+    @Override
+    protected @Nullable SoundEvent getAmbientSound() {
+        return SoundEvents.SKELETON_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ModSounds.SKULL_DEATH.get();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+        return ModSounds.SKULL_HURT.get();
     }
 }

@@ -97,17 +97,15 @@ public class SkeletonAttackGoal extends MeleeAttackGoal {
     private AttackKind chooseAttack(LivingEntity target, double distanceSquared) {
         double baseReach = Math.sqrt(getAttackReachSqr(target));
 
-        double slashStart = baseReach + AttackKind.SLASH.getStartReachBonus();
-        double stabStart = baseReach + AttackKind.STAB.getStartReachBonus();
-
         double dist = Math.sqrt(distanceSquared);
 
-        if (dist <= slashStart) {
-            return AttackKind.SLASH;
-        }
-        if (dist <= stabStart) {
-            return AttackKind.STAB;
-        }
+        if(dist <= baseReach)
+            if(entity.getRandom().nextBoolean()) {
+                return AttackKind.SLASH;
+            } else {
+                return AttackKind.STAB;
+            }
+
         return null;
     }
 
@@ -126,6 +124,9 @@ public class SkeletonAttackGoal extends MeleeAttackGoal {
 
     private void performAttack() {
         LivingEntity target = mob.getTarget();
+        if(currentAttack.getAttackSound() != null) {
+            entity.playSound(currentAttack.getAttackSound());
+        }
 
         if (target != null && currentAttack != null && isWithinHitReach(target, currentAttack)) {
             mob.swing(InteractionHand.MAIN_HAND);

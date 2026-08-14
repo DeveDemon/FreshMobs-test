@@ -1,0 +1,38 @@
+{
+  "shield_skeleton_slash": {
+    "subtitles": "sounds.freshmobs.shield_skeleton_slash",
+    "sounds": [
+      "freshmobs:shield_skeleton_slash"
+    ]
+  },
+  "shield_skeleton_stab": {
+    "subtitles": "sounds.freshmobs.shield_skeleton_stab",
+    "sounds": [
+      "freshmobs:shield_skeleton_stab"
+    ]
+  },
+  "skull_armored_death": {
+    "subtitles": "sounds.freshmobs.skull_armored_death",
+    "sounds": [
+      "freshmobs:skull_armored_death"
+    ]
+  },
+  "skull_armored_hurt": {
+    "subtitles": "sounds.freshmobs.skull_armored_hurt",
+    "sounds": [
+      "freshmobs:skull_armored_hurt"
+    ]
+  },
+  "skull_death": {
+    "subtitles": "sounds.freshmobs.skull_death",
+    "sounds": [
+      "freshmobs:skull_death"
+    ]
+  },
+  "skull_hurt": {
+    "subtitles": "sounds.freshmobs.skull_hurt",
+    "sounds": [
+      "freshmobs:skull_hurt"
+    ]
+  }
+}

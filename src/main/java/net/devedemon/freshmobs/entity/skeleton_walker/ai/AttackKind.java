@@ -1,19 +1,22 @@
 package net.devedemon.freshmobs.entity.skeleton_walker.ai;
 
+import net.devedemon.freshmobs.sound.ModSounds;
+import net.minecraft.sounds.SoundEvent;
+
 public enum AttackKind {
     SLASH(
             "slash",
             13,
             35,
-            0.0D,
-            1.0D
+            1.0D,
+            ModSounds.SHIELD_SKELETON_SLASH.get()
     ),
     STAB(
             "stab",
             20,
             45,
-            1.5D,
-            2.5D
+            2.0D,
+            ModSounds.SHIELD_SKELETON_STAB.get()
     ),
 
     PUMP_FAKE(
@@ -21,7 +24,7 @@ public enum AttackKind {
             0,
             40,
             0.0D,
-            0.0D
+            null
     ),
 
     BANGING(
@@ -29,22 +32,22 @@ public enum AttackKind {
             0,
             65,
             0.0D,
-            0.0D
+            null
     );
 
     private final String animationName;
     private final int attackTime;
     private final int animationLength;
-    private final double startReachBonus;
     private final double hitReachBonus;
+    private final SoundEvent attackSound;
 
     AttackKind(String animationName, int attackTime, int animationLength,
-               double startReachBonus, double hitReachBonus) {
+               double hitReachBonus, SoundEvent attackSound) {
         this.animationName = animationName;
         this.attackTime = attackTime;
         this.animationLength = animationLength;
-        this.startReachBonus = startReachBonus;
         this.hitReachBonus = hitReachBonus;
+        this.attackSound = attackSound;
     }
 
     public String getAnimationName() {
@@ -59,15 +62,12 @@ public enum AttackKind {
         return animationLength;
     }
 
-    public double getStartReachBonus() {
-        return startReachBonus;
-    }
-
     public double getHitReachBonus() {
         return hitReachBonus;
     }
 
-    public boolean isMeleeSelectable() {
-        return this == SLASH || this == STAB;
+    public SoundEvent getAttackSound() {
+        return attackSound;
     }
+
 }
